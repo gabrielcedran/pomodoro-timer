@@ -24,5 +24,5 @@ Styled components uses a concept known as CSS in JS (write the application's css
 
 Installation: `npm i styled-components` (newer versions come with built-in TS declarations, but until quite recently it didn't so in case the version you are working with doesn't, just add them `npm i @types/styled-components -D`).
 
-
+_Similarly to vanilla css (maybe sligthly easier and more flexible), it's possible to define different themes on styled components via the component ThemeProvider and the props theme (`${props => props.theme.primary}`) - more info check commit_
 
