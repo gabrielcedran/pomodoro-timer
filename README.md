@@ -18,7 +18,11 @@ In general the choice doesn't make much of a difference - especially when you ar
 The only slight advantage of the named export is that devs tends to copy and paste a lot during development. Should a component initially created as a copy of another not have its name properly (re)defined, the default export may hide it as clients using the component can set their own names (it doesn't have to match the exported one).
 
 
+### Styled Components
 
+Styled components uses a concept known as CSS in JS (write the application's css in js syntax).
+
+Installation: `npm i styled-components` (newer versions come with built-in TS declarations, but until quite recently it didn't so in case the version you are working with doesn't, just add them `npm i @types/styled-components -D`).
 
 
 
