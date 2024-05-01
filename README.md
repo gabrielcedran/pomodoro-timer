@@ -37,3 +37,16 @@ In the styled components case when (custom) themes are created, it enabled types
 Check `./src/@types/styled.d.ts` and git commit for details of implementation.
 
 Ps directory `@types` and file name `styled.d.ts` is not mandatory and could be anything. The suffix `.d.ts` indicates that it is a file with types definition.
+
+
+### ESLint
+
+ESLint enforces standards defined by the project (double vs single quotes, semi-colon or not at the end of lines, etc). It automatically applies the rules without burdening developers to remember them.
+
+Popular config: airbnb: `npm i eslint-config-airbnb -D`
+
+To run eslint from command line: `npx eslint src --ext .ts,.tsx`
+
+https://eslint.org/docs/latest/rules/
+
+https://eslint.org/docs/latest/use/getting-started
