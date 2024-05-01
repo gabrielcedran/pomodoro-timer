@@ -26,3 +26,14 @@ Installation: `npm i styled-components` (newer versions come with built-in TS de
 
 _Similarly to vanilla css (maybe sligthly easier and more flexible), it's possible to define different themes on styled components via the component ThemeProvider and the props theme (`${props => props.theme.primary}`) - more info check commit_
 
+_Styled components does not automatically extend its types with custom themes properties. It's necessary to extend it manually to have IDE completion and typescript type enforcement and validation._
+ 
+ #### Application Custom Types (overloading external libs definition)
+
+ When working with TS, it's possible to create type definition files (declaration files) specific for an application - the custom types for that application.
+
+In the styled components case when (custom) themes are created, it enabled typescript type enforcement and validation and also IDE completion suggestion.
+
+Check `./src/@types/styled.d.ts` and git commit for details of implementation.
+
+Ps directory `@types` and file name `styled.d.ts` is not mandatory and could be anything. The suffix `.d.ts` indicates that it is a file with types definition.
