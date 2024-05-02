@@ -50,3 +50,71 @@ To run eslint from command line: `npx eslint src --ext .ts,.tsx`
 https://eslint.org/docs/latest/rules/
 
 https://eslint.org/docs/latest/use/getting-started
+
+
+### React Router (works with web and native)
+
+`npm i react-router-dom`
+
+
+#### Layout Routes / Outlets
+
+When users navigate to different components via react router routes, parts of the application that do not change get rerendered if they are simply replicated inside those components.
+
+Example:
+
+```javascript
+
+function Header() {...}
+
+function Home() {
+    return (
+        <div>
+            <Header />
+            ...
+        </div>
+    )
+}
+
+function History() {
+    return (
+        <div>
+            <Header />
+            ...
+        </div>
+    )
+}
+
+<Routes>
+    <Route path="/" element={<Home />}>
+    <Route path="/history" element={<History />}>
+</Routes>
+```
+
+React dom outlet allows the creation of layouts where the wrapping components do not get rerender when users nagivate to within subcomponents.
+
+```javascript
+
+function DefaultLayout() {
+  return (
+    <div>
+      <Header />
+      <Outlet /> <!-- Where react router will render the sub components -->
+    </div>
+  );
+}
+
+function Header() {...}
+
+function Home() {...}
+
+function History() {...}
+
+<Routes>
+    <Route path="/" element={<DefaultLayout />}>
+        <Route path="/" element={<Home />}>
+        <Route path="/history" element={<History />}>
+    </Route>
+</Routes>
+```
+
