@@ -29,6 +29,9 @@ module.exports = {
     ],
     "react/react-in-jsx-scope": ["off"],
     "react/jsx-uses-react": ["off"],
-    "react/require-default-props": ["off"]
+    "react/require-default-props": ["off"],
+    "react/jsx-props-no-spreading"  : ["off"],
+    "jsx-a11y/label-has-associated-control": ["off"],
+    "jsx-a11y/control-has-associated-label": ["off"],
   },
 }

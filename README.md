@@ -118,3 +118,107 @@ function History() {...}
 </Routes>
 ```
 
+###  Forms
+
+When working with forms in react, there are two concepts: controlled and uncontrolled.
+
+Controlled components have their value updated in real time as the users interact with the form, while uncontrolled when the value is necessary such as upon form submission or other specific events.
+
+Controlled components are typically used for smaller forms as they provider greater interactivity for the app and the uncontrolled for big forms where re-rendering components every time as new characters are typed in may have performance implications.
+
+
+#### React Hook Form
+
+This lib can work in both ways, controlled and uncontrolled. `npm i react-hook-form`.
+
+The basic components of the react hook form lib are `useForm`, `register` and `handleSubmit`. They can be understood as `useForm`: create/declare a new form, `register` add inputs to the form, `handleSubmit` callback when the form is submitted.
+
+_Side note: the register function returns an object with input event callback functions so that it can operate and manage the input where it is being added:_
+
+```javascript
+
+    <input {...register('input-name')}>
+
+    /**
+     * function register(inputName, ...) {
+     *  return {
+     *      onChange: () => void,
+     *      onFocus: () => void,
+     *      onBlur: () => void,
+     *  }
+     * } 
+     */
+
+```
+
+
+*types:*
+
+When no extra configuration is passed to react hook form, all the inputs are passed to the handle submit function as string. In order to provide further configuration (and change an input type), the register function receives a second parameters that is a configuration object:
+
+```javascript
+    <input
+        type="number"
+        id="minutes"
+        placeholder="00"
+        step={5}
+        min={5}
+        max={60}
+        {...register('minutes', { valueAsNumber: true })}
+    />
+```
+
+
+*watch:*
+
+In order to get input values in a controllered manner, react hook form has a function called watch, that receives the name of the input that you want to get access to the value in real time:
+
+```javascript
+
+    const taskNameValue = watch('taskName')
+    ...
+    <input {...register('taskName')}>
+```
+
+_inputs not watched do not trigger re-renders_
+
+*validations:*
+
+RHF prefers to remain as a leaner lib and leave validations (and integrate) to other libs that are more specialised and advanced for this purpose. Some samples of libs specialised in validations are `yup`, `joi` and `zod` - they are all similar and deliver similar feature however zod has a slightly better integration with typescript. `npm i zod`
+
+To integrate RHF with zod (or any other), it is necessary to install a lib called hook form resolvers `npm i @hookform/resolvers` and do the following steps:
+
+1. create an object schema using zod
+2. provide the zodResolver as the resolver for RHF
+3. provide the created object schema to zod resolver
+4. get the validation errors provided by useForm hook and handle them (e.g render on the UI)
+
+```javascript
+...
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as zod from 'zod'; // no export default thus the * method
+...
+
+const newCycleFormValidationSchema = zod.object({
+  taskName: zod.string().min(1, 'Project / Task name is mandatory'),
+});
+...
+
+const {
+register, handleSubmit, watch, formState,
+} = useForm<CreateNewCycleFormData>({
+resolver: zodResolver(newCycleFormValidationSchema),
+});
+...
+
+console.log(formState.errors);
+
+```
+
+Zod has a feature that creates types based on schemas:
+
+```javascript
+
+type CreateNewCycleFormData = zod.infer<typeof newCycleFormValidationSchema>;
+
+```
