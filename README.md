@@ -43,9 +43,11 @@ Ps directory `@types` and file name `styled.d.ts` is not mandatory and could be 
 
 ESLint enforces standards defined by the project (double vs single quotes, semi-colon or not at the end of lines, etc). It automatically applies the rules without burdening developers to remember them.
 
+Install eslint: `npm i eslint -D`
+
 Popular config: airbnb: `npm i eslint-config-airbnb -D`
 
-To run eslint from command line: `npx eslint src --ext .ts,.tsx`
+To run eslint from command line: `npx eslint src --ext .ts,.tsx {--fix}`
 
 https://eslint.org/docs/latest/rules/
 
