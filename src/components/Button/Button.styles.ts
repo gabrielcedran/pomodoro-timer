@@ -6,7 +6,7 @@ interface ButtonContainerProps {
   $variant: ButtonVariant
 }
 
-const variantColourMapping = {
+const variantColourMapping: { [K in ButtonVariant]: string } = {
   primary: 'purple',
   secondary: 'orange',
   danger: 'red',
