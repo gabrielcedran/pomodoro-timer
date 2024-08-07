@@ -1,4 +1,4 @@
-import { Button } from './components/ButtonWithCssModules'
+import { Button } from './components/Button'
 
 export function App() {
   return (
