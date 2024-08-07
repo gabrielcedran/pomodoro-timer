@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 export type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'success'
 
@@ -16,7 +16,19 @@ const variantColourMapping: { [K in ButtonVariant]: string } = {
 export const ButtonContainer = styled.button<ButtonContainerProps>`
   width: 100px;
   height: 40px;
-  background: ${(props) => {
+  border-radius: 4px;
+  border: 0;
+  margin: 8px;
+  // without theme
+  /* background: ${(props) => {
     return variantColourMapping[props.$variant]
-  }};
+  }}; */
+
+  // with theme - example of css syntax highlighting
+  /* ${(props) => {
+    return css`
+      background-color: ${props.theme[props.$variant]};
+    `
+  }} */
+  background-color: ${(props) => props.theme[props.$variant]};
 `
