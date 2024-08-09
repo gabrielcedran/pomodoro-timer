@@ -21,12 +21,21 @@ const newCycleFormValidationSchema = zod.object({
     .max(90, 'Duration can only be of up to 90 minutes'),
 })
 
-export function Home() {
-  const { register, handleSubmit, watch, formState } = useForm({
-    resolver: zodResolver(newCycleFormValidationSchema),
-  })
+type NewCycleFormData = zod.infer<typeof newCycleFormValidationSchema>
 
-  function handleCreateNewCycle(data) {}
+export function Home() {
+  const { register, handleSubmit, watch /* formState */ } =
+    useForm<NewCycleFormData>({
+      resolver: zodResolver(newCycleFormValidationSchema),
+      defaultValues: {
+        task: '',
+        durationInMinutes: 5,
+      },
+    })
+
+  function handleCreateNewCycle(data: NewCycleFormData) {
+    // formState.errors (to get errors upon submit)
+  }
 
   // this effectively turns the input into a controlled input, triggering rerender at every key stroke
   const taskInput = watch('task')
