@@ -95,6 +95,12 @@ export function Home() {
   const currentMinutes = String(activeCycleMinutesReimaining).padStart(2, '0')
   const currentSeconds = String(activeCycleSecondsRemaining).padStart(2, '0')
 
+  useEffect(() => {
+    if (activeCycle) {
+      document.title = `Pomodoro ${currentMinutes}:${currentSeconds}`
+    }
+  }, [currentMinutes, currentSeconds, activeCycle])
+
   // this effectively turns the input into a controlled input, triggering rerender at every key stroke
   const taskInput = watch('task')
 
