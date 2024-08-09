@@ -228,3 +228,84 @@ type CreateNewCycleFormData = zod.infer<typeof newCycleFormValidationSchema>;
 *Reset function*
 
 Always define the defaultValue when creating the react hook form form, in order to ensure that the reset function works as expected.
+
+
+### Prop Drilling and Contexts
+
+Prop drilling is an issue that any react app is susceptible. 
+It happens when too many properties are necessary in order to have communication between components (or have to be passed down too many layers).
+
+As a rule of thumb, components that need to pass/receive from 1 to 3 properties are fine. More than this, it starts to become cumbersome from maintenance perspective.
+
+
+The context api is meant to address this issue by allowing for multiple components to share the same state at once.
+
+
+Context on it own, does not allow changes to value - it's almost like a constant:
+
+```javascript
+import {createContext, useContext} from 'react'
+
+export const CounterContext = createContext({ acc: 0 })
+
+... 
+
+function ContextClient() {
+    const {acc} = useContext(CounterContext)
+
+    return (
+        <span>Current value {acc}</span>
+    )
+}
+```
+
+In order to allow for contexts to change values and trigger re-rendering of components, it's necessary to use it along with useState (and use the state SET function to change the values):
+
+
+```javascript
+  export const CounterContext = createContext({acc: 0, setAcc: (num: number) => {} }) // property typing here required, this is just for example purposes 
+
+...
+
+function ParentComponent() {
+    const {acc, setAcc} = useState(0)
+
+    return (
+        <CounterContext.Provider value={{acc, setAcc}}>
+            <ContextClient />
+        </CounterContext.Provider>
+    )
+}
+```
+
+
+### React hook form
+
+React hook form comes with a context that allows for sharing of its own properties between components without the need of prop drilling.
+E.g to slip components into smaller components, where the form itself it at a higher level component.
+
+Example:
+
+```javascript
+
+  const newForm = useForm<NewCycleFormData>({...})
+  const {handleSubmit, watch, reset, ...} = newForm
+  ...
+
+  <form onSubmit={handleSubmit(...)}>
+    <FormProvider {...newForm}>
+      <SubComponent />
+    </FormProvider>       
+  </form>
+
+  ...
+  // subcomponent
+  function Subcomponent() {
+    const { register } = useFormContext()
+    return (
+        <>
+            <input  {...register('task')} ... />
+        </>
+    )
+  }
+```
