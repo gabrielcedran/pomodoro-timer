@@ -224,3 +224,7 @@ Zod has a feature that creates types based on schemas:
 type CreateNewCycleFormData = zod.infer<typeof newCycleFormValidationSchema>;
 
 ```
+
+*Reset function*
+
+Always define the defaultValue when creating the react hook form form, in order to ensure that the reset function works as expected.
