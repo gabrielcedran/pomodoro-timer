@@ -1,4 +1,5 @@
 import { Play } from 'phosphor-react'
+import { useForm } from 'react-hook-form'
 import {
   CountdownContainer,
   DurationMinutesInput,
@@ -10,15 +11,23 @@ import {
 } from './styles'
 
 export function Home() {
+  const { register, handleSubmit, watch } = useForm()
+
+  function handleCreateNewCycle(data) {}
+
+  // this effectively turns the input into a controlled input, triggering rerender at every key stroke
+  const taskInput = watch('task')
+
   return (
     <HomeContainer>
-      <form action="">
+      <form onSubmit={handleSubmit(handleCreateNewCycle)}>
         <FormContainer>
           <label htmlFor="task">Task</label>
           <TaskInput
             id="task"
             placeholder="description"
             list="task-suggestions"
+            {...register('task')}
           />
           <datalist id="task-suggestions">
             <option value="Project 1" />
@@ -29,6 +38,7 @@ export function Home() {
             type="number"
             id="durationInMinutes"
             placeholder="00"
+            {...register('durationInMinutes', { valueAsNumber: true })}
             max={90}
             min={5}
             step={5}
@@ -45,7 +55,7 @@ export function Home() {
           <span>0</span>
         </CountdownContainer>
 
-        <StartCountdownButton type="submit">
+        <StartCountdownButton type="submit" disabled={!taskInput}>
           <Play size={24} />
           Start
         </StartCountdownButton>
