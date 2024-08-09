@@ -24,7 +24,7 @@ const newCycleFormValidationSchema = zod.object({
 type NewCycleFormData = zod.infer<typeof newCycleFormValidationSchema>
 
 export function Home() {
-  const { createCreateNewCycle, interruptCycle, activeCycle } =
+  const { createNewCycle, interruptCycle, activeCycle } =
     useContext(CyclesContext)
   const newCycleForm = useForm<NewCycleFormData>({
     resolver: zodResolver(newCycleFormValidationSchema),
@@ -34,14 +34,19 @@ export function Home() {
     },
   })
 
-  const { handleSubmit, watch /* formState */ } = newCycleForm
+  const { handleSubmit, watch, reset /* formState */ } = newCycleForm
 
   // this effectively turns the input into a controlled input, triggering rerender at every key stroke
   const taskInput = watch('task')
 
+  function handleCreateNewCycle(data: NewCycleFormData) {
+    createNewCycle(data)
+    reset()
+  }
+
   return (
     <HomeContainer>
-      <form onSubmit={handleSubmit(createCreateNewCycle)}>
+      <form onSubmit={handleSubmit(handleCreateNewCycle)}>
         <FormProvider {...newCycleForm}>
           <NewCycleForm />
         </FormProvider>

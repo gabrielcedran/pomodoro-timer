@@ -17,9 +17,10 @@ interface CreateCycleData {
 type CyclesContextType = {
   activeCycle: Cycle | undefined
   activeCycleSecondsElapsed: number
+  cycles: Cycle[]
   finishCycle: () => void
   updateActiveCycleSecondsElapsed: (value: number) => void
-  createCreateNewCycle: (data: CreateCycleData) => void
+  createNewCycle: (data: CreateCycleData) => void
   interruptCycle: () => void
 }
 
@@ -53,7 +54,7 @@ export function CyclesContextProvider({
     setActiveCycleId(null)
   }
 
-  function createCreateNewCycle(data: CreateCycleData) {
+  function createNewCycle(data: CreateCycleData) {
     // formState.errors (to get errors upon submit)
 
     const newCycle: Cycle = {
@@ -88,11 +89,12 @@ export function CyclesContextProvider({
   return (
     <CyclesContext.Provider
       value={{
+        cycles,
         activeCycle,
         finishCycle,
         activeCycleSecondsElapsed,
         updateActiveCycleSecondsElapsed,
-        createCreateNewCycle,
+        createNewCycle,
         interruptCycle,
       }}
     >
