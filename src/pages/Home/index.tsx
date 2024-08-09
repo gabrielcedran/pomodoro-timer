@@ -30,8 +30,9 @@ interface Cycle {
   id: string
   task: string
   durationInMinuts: number
-  startDate: Date
-  interruptedDate?: Date
+  startedAt: Date
+  interruptedAt?: Date
+  finshedAt?: Date
 }
 
 export function Home() {
@@ -50,13 +51,34 @@ export function Home() {
 
   const activeCycle = cycles.find((cycle) => cycle.id === activeCycleId)
 
+  const activeCycleTotalSeconds = activeCycle
+    ? activeCycle.durationInMinuts * 60
+    : 0
+
   useEffect(() => {
     let setIntervalRef: number
     if (activeCycle) {
       setIntervalRef = setInterval(() => {
-        setActiveCycleSecondsElapsed(
-          differenceInSeconds(new Date(), activeCycle.startDate),
+        const secondsElapsed = differenceInSeconds(
+          new Date(),
+          activeCycle.startedAt,
         )
+
+        if (secondsElapsed <= activeCycleTotalSeconds) {
+          setActiveCycleSecondsElapsed(secondsElapsed)
+        } else {
+          setCycles((currentState) => [
+            ...currentState.map((cycle) => {
+              if (cycle.id === activeCycle.id) {
+                return { ...cycle, finishedAt: new Date() }
+              } else {
+                return cycle
+              }
+            }),
+          ])
+          setActiveCycleId(null)
+          clearInterval(setIntervalRef)
+        }
       }, 1000)
     }
     return () => {
@@ -64,7 +86,7 @@ export function Home() {
         clearInterval(setIntervalRef)
       }
     }
-  }, [activeCycle])
+  }, [activeCycle, activeCycleTotalSeconds])
 
   function handleCreateNewCycle(data: NewCycleFormData) {
     // formState.errors (to get errors upon submit)
@@ -73,7 +95,7 @@ export function Home() {
       id: String(new Date().getTime()),
       task: data.task,
       durationInMinuts: data.durationInMinutes,
-      startDate: new Date(),
+      startedAt: new Date(),
     }
     setCycles((currentState) => [...currentState, newCycle])
     setActiveCycleId(newCycle.id)
@@ -82,7 +104,6 @@ export function Home() {
     reset()
   }
 
-  console.log(cycles)
   function handleInterruptCycle() {
     setCycles((currentState) => [
       ...currentState.map((cycle) => {
@@ -96,9 +117,6 @@ export function Home() {
     setActiveCycleId(null)
   }
 
-  const activeCycleTotalSeconds = activeCycle
-    ? activeCycle.durationInMinuts * 60
-    : 0
   const activeCycleTotalSecondsRemaining = activeCycle
     ? activeCycleTotalSeconds - activeCycleSecondsElapsed
     : 0
