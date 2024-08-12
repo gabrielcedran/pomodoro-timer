@@ -6,7 +6,7 @@ interface Cycle {
   durationInMinutes: number
   startedAt: Date
   interruptedAt?: Date
-  finshedAt?: Date
+  finishedAt?: Date
 }
 
 interface CreateCycleData {

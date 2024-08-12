@@ -34,11 +34,13 @@ export function History() {
                     })}
                   </td>
                   <td>
-                    {cycle.finshedAt && <Status color="green">Finished</Status>}
+                    {cycle.finishedAt && (
+                      <Status color="green">Finished</Status>
+                    )}
                     {cycle.interruptedAt && (
                       <Status color="red">Interrupted</Status>
                     )}
-                    {!cycle.finshedAt && !cycle.interruptedAt && (
+                    {!cycle.finishedAt && !cycle.interruptedAt && (
                       <Status color="yellow">In progress</Status>
                     )}
                   </td>
