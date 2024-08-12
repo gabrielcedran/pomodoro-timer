@@ -309,3 +309,13 @@ Example:
     )
   }
 ```
+
+
+### Reducers 
+
+Reducers are used to store data like States. Reducers are meant to store data that is more complex (from maintenance / handling perspective). 
+
+It isolates and centralises the data handling avoiding logic duplication and reducing the component's complexity as the burdensome logics are extracted outside them.
+
+
+
