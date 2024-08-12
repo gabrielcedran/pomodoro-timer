@@ -319,3 +319,38 @@ It isolates and centralises the data handling avoiding logic duplication and red
 
 
 
+#### Immerjs
+
+It's a lib meant to ease working with immutable objects in JS (core concept of react) and making it more readable, by allowing developers to carry out changes in a mutable fashion but handling the changes in a immutable way under the hood (e.g it avoid those cumbersome nested spread operators with maps, etc).
+
+`npm i immer`
+
+```javascript
+      return {
+        ...state,
+        cycles: state.cycles.map((cycle) => {
+          if (cycle.id === state.activeCycleId) {
+            return { ...cycle, interruptedAt: new Date() }
+          } else {
+            return cycle
+          }
+        }),
+        activeCycleId: null,
+      }
+
+      // vs 
+
+      const currentCycleIndex = state.cycles.findIndex((cycle) => {
+        return cycle.id === state.activeCycleId
+      })
+
+      if (currentCycleIndex < 0) {
+        return state
+      }
+
+      return produce(state, (draft) => {
+        draft.cycles[currentCycleIndex].interruptedAt = new Date()
+        draft.activeCycleId = null
+      })
+
+```
